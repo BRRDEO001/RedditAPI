@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Data Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data Models\" />
+  </ItemGroup>
 </Project>
