@@ -9,11 +9,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add Firebase Admin SDK initialization
+//Firebase initialisation 
 FirebaseApp.Create(new AppOptions
 {
     Credential = GoogleCredential.FromFile("reddit-api-3ef2f-firebase-adminsdk-k7wei-68e730d850.json")
 });
+
+builder.Services.AddSingleton<FirestoreService>(_ =>
+    new FirestoreService("reddit-api-3ef2f", "reddit-api-3ef2f-firebase-adminsdk-k7wei-68e730d850.json"));
+
 
 var app = builder.Build();
 
