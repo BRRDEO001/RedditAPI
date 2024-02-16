@@ -3,12 +3,12 @@ namespace redditAPI.DataModels
 {
     public class Comment
     {
-        private int id;
-        private int postId;
-        private int authorId;
-        private string content;
-        private int likeCount ;
-        private int dislikeCount ;
+        public int id{ get; set; }
+        public int postId{ get; set; }
+        public int authorId{ get; set; }
+        public string content{ get; set; }
+        public int likeCount { get; set; }
+        public int dislikeCount { get; set; }
     }
 
 }

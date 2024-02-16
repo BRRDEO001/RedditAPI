@@ -1,27 +1,31 @@
 ﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-using redditAPI.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System;
+
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "fbServiceAccountKey.json");
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Rest of your code
+builder.WebHost.UseUrls("https://localhost:5001", "http://localhost:5000");
 
+// Rest of your code
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Get Firebase configuration settings from appsettings.json
 var configuration = builder.Configuration;
 var projectId = configuration["Firebase:ProjectId"];
 var serviceAccountKeyFilePath = configuration["Firebase:ServiceAccountKeyFilePath"];
 
-//Firebase initialisation 
+//Firebase initialization 
 FirebaseApp.Create(new AppOptions
 {
-    Credential = GoogleCredential.FromFile(serviceAccountKeyFilePath)
-});
+    Credential = GoogleCredential.FromFile("fbServiceAccountKey.json")
+}) ;
 
 builder.Services.AddSingleton<FirestoreService>(_ =>
     new FirestoreService(projectId, serviceAccountKeyFilePath));

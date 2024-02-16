@@ -3,10 +3,10 @@ namespace redditAPI.DataModels
 {
     public class User
     {
-        private int id ;
-        private string username ;
-        private string email ;
-        private string hashedPassword ;
+        public int id { get; set; }
+        public string username { get; set; }
+        public string email { get; set; }
+        public string hashedPassword { get; set; }
     }
 
 }

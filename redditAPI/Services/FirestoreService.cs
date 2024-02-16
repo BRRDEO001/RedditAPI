@@ -1,10 +1,9 @@
-﻿namespace redditAPI.Services;
-
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
-using Grpc.Auth;
+using Microsoft.AspNetCore.Mvc;
 using redditAPI.DataModels;
+
 
 public class FirestoreService
 {
@@ -16,6 +15,11 @@ public class FirestoreService
         GoogleCredential credential = GoogleCredential.FromFile(credentialsPath);
         FirestoreClient firestoreClient = Google.Cloud.Firestore.V1.FirestoreClient.Create();
         db = FirestoreDb.Create(projectId, firestoreClient);
+    }
+
+    public async Task CreateUser(User user)
+    {
+        await AddDocument("users", user);
     }
 
     public async Task AddDocument<T>(string collectionName, T document)
@@ -42,7 +46,7 @@ public class FirestoreService
         QuerySnapshot snapshot = await collection.GetSnapshotAsync();
 
         List<Post> posts = new List<Post>();
-        foreach(DocumentSnapshot document in snapshot.Documents)
+        foreach (DocumentSnapshot document in snapshot.Documents)
         {
             if (document.Exists)
             {
@@ -68,9 +72,6 @@ public class FirestoreService
         return null;
     }
 
-
-    /* Posts */
-
     public async Task LikePost(string id)
     {
         DocumentReference postsRef = db.Collection("posts").Document(id);
@@ -86,7 +87,6 @@ public class FirestoreService
         {
             throw new Exception("Post not found");
         }
-
     }
 
     public async Task UnlikePost(string id)
@@ -104,10 +104,7 @@ public class FirestoreService
         {
             throw new Exception("Post not found");
         }
-
     }
-
-    /*Comments*/
 
     public async Task UpdateComment(string postId, string commentId, Comment updatedComment)
     {
@@ -159,7 +156,4 @@ public class FirestoreService
         comment.likeCount--;
         await commentRef.SetAsync(comment);
     }
-
-
-
 }
