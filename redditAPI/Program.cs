@@ -5,19 +5,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Get Firebase configuration settings from appsettings.json
+var configuration = builder.Configuration;
+var projectId = configuration["Firebase:ProjectId"];
+var serviceAccountKeyFilePath = configuration["Firebase:ServiceAccountKeyFilePath"];
 
 //Firebase initialisation 
 FirebaseApp.Create(new AppOptions
 {
-    Credential = GoogleCredential.FromFile("reddit-api-3ef2f-firebase-adminsdk-k7wei-68e730d850.json")
+    Credential = GoogleCredential.FromFile(serviceAccountKeyFilePath)
 });
 
 builder.Services.AddSingleton<FirestoreService>(_ =>
-    new FirestoreService("reddit-api-3ef2f", "reddit-api-3ef2f-firebase-adminsdk-k7wei-68e730d850.json"));
-
+    new FirestoreService(projectId, serviceAccountKeyFilePath));
 
 var app = builder.Build();
 
