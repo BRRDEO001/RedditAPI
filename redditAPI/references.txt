@@ -1,0 +1,11 @@
+https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio
+
+https://www.c-sharpcorner.com/article/create-simple-web-api-in-asp-net-mvc/
+
+https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-8.0
+
+https://www.tutorialsteacher.com/webapi/web-api-controller
+
+https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-8.0
+
+https://firebase.google.com/docs/reference/js/v8/firebase.firestore.QuerySnapshot
