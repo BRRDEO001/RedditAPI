@@ -7,13 +7,13 @@ namespace redditAPI.DataModels
         public class Post
         {
 
-        private int id;
-        private string title;
-        private string content;
-        private int authorId;
-        private int likeCount;
-        private int dislikeCount;
-        private List<Comment> Comments;
+        private int id { get; set; }
+        private string title{ get; set; }
+        private string content{ get; set; }
+        private int authorId{ get; set; }
+        private int likeCount { get; set; }
+        private int dislikeCount{ get; set; }
+        private List<Comment> Comments{ get; set; }
 
         }
     
