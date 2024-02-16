@@ -68,6 +68,9 @@ public class FirestoreService
         return null;
     }
 
+
+    /* Posts */
+
     public async Task LikePost(string id)
     {
         DocumentReference postsRef = db.Collection("posts").Document(id);
@@ -103,6 +106,60 @@ public class FirestoreService
         }
 
     }
+
+    /*Comments*/
+
+    public async Task UpdateComment(string postId, string commentId, Comment updatedComment)
+    {
+        DocumentReference postRef = db.Collection("posts").Document(postId);
+        DocumentSnapshot postSnapshot = await postRef.GetSnapshotAsync();
+
+        if (!postSnapshot.Exists)
+        {
+            throw new Exception("Post not found");
+        }
+
+        DocumentReference commentRef = db.Collection("posts").Document(postId).Collection("comments").Document(commentId);
+        DocumentSnapshot commentSnapshot = await commentRef.GetSnapshotAsync();
+
+        if (!commentSnapshot.Exists)
+        {
+            throw new Exception("Comment not found");
+        }
+
+        await commentRef.SetAsync(updatedComment);
+    }
+
+    public async Task LikeComment(string postId, string commentId)
+    {
+        DocumentReference commentRef = db.Collection("posts").Document(postId).Collection("comments").Document(commentId);
+        DocumentSnapshot commentSnapshot = await commentRef.GetSnapshotAsync();
+
+        if (!commentSnapshot.Exists)
+        {
+            throw new Exception("Comment not found");
+        }
+
+        Comment comment = commentSnapshot.ConvertTo<Comment>();
+        comment.likeCount++;
+        await commentRef.SetAsync(comment);
+    }
+
+    public async Task UnlikeComment(string postId, string commentId)
+    {
+        DocumentReference commentRef = db.Collection("posts").Document(postId).Collection("comments").Document(commentId);
+        DocumentSnapshot commentSnapshot = await commentRef.GetSnapshotAsync();
+
+        if (!commentSnapshot.Exists)
+        {
+            throw new Exception("Comment not found");
+        }
+
+        Comment comment = commentSnapshot.ConvertTo<Comment>();
+        comment.likeCount--;
+        await commentRef.SetAsync(comment);
+    }
+
 
 
 }
